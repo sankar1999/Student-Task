@@ -45,6 +45,8 @@ public class StudentController {
     @PostMapping("/insertMultipleStudents")
     public String insertMultipleStudents(@RequestBody StudentRequestModel studentsList) {
 
+        studentsList.getStudents().stream()
+                .forEach(student -> System.out.println(student.getName()));
 
 //    studentsList.getStudents().forEach(Student -> {
 //        Student student = new Student();

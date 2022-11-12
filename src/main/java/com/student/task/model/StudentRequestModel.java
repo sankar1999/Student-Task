@@ -13,6 +13,13 @@ public class StudentRequestModel {
         return students;
     }
 
+    public StudentRequestModel() {
+    }
+
+    public StudentRequestModel(List<Student> students) {
+        this.students = students;
+    }
+
     @Override
     public String toString() {
         return "StudentRequestModel{" +
