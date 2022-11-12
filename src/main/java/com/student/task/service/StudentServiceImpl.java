@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -42,6 +43,25 @@ public class StudentServiceImpl implements StudentService {
         if(checkBothObjects.equals(false)) {
             repository.save(student);
             finalResponse = "Updated...";
+        }
+        return finalResponse;
+    }
+
+    @Override
+    public String insertMultipleStudents(List<Student> students) {
+        String finalResponse = "";
+        Boolean toCheckSavedOrNot = false;
+
+        if (!(students.isEmpty())) {
+            toCheckSavedOrNot = true;
+            students.stream()
+                    .forEach(student -> repository.save(student));
+        }
+
+        if (toCheckSavedOrNot.equals(true)) {
+            finalResponse = "Saved...";
+        } else {
+            finalResponse = "Reauest is empty...";
         }
         return finalResponse;
     }

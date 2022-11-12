@@ -15,4 +15,5 @@ public interface StudentService {
 
     String updateExistingStudent(Student student);
 
+    String insertMultipleStudents(List<Student> students);
 }

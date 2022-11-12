@@ -19,15 +19,8 @@ public class Student {
     private String department;
     private String emailAddress;
 
-    public Student() {
-    }
 
-    public Student(Long id, String name, Integer age, String department, String emailAddress) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.department = department;
-        this.emailAddress = emailAddress;
+    public Student(Student student) {
     }
 
     public Long getId() {
