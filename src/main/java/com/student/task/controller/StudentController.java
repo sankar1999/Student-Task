@@ -1,15 +1,12 @@
 package com.student.task.controller;
 
 import com.student.task.entity.Student;
-import com.student.task.model.StudentRequestModel;
+import com.student.task.responseModel.ResponseModel;
 import com.student.task.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 public class StudentController {
@@ -41,24 +38,35 @@ public class StudentController {
         return studentService.updateExistingStudent(student);
     }
 
-    // Insert Multiple Students
-    @PostMapping("/insertMultipleStudents")
-    public String insertMultipleStudents(@RequestBody StudentRequestModel studentsList) {
+//    // UpdateListOfStudents
+//    @PostMapping("/updateListOfStudents")
+//    public void updateListOfStudents(@RequestBody List<Student> studentList) {
+//        studentService.updateListOfStudents(studentList);
+//    }
 
-        studentsList.getStudents().stream()
-                .forEach(student -> System.out.println(student.getName()));
-
-//    studentsList.getStudents().forEach(Student -> {
-//        Student student = new Student();
-//        student.setId(student.getId());
-//        student.setName(student.getName());
-//        student.setAge(student.getAge());
-//        student.setEmailAddress(student.getEmailAddress());
-//        student.setDepartment(student.getDepartment());
-//        saveStudents.add(student);
-//    });
-
-        return "Test...";
-//        return studentService.insertMultipleStudents(students);
+    // SaveListOfStudents
+    @PostMapping("/saveListOfStudent")
+    public ResponseModel saveListofStudents(@RequestBody List<Student> students) {
+        return studentService.saveListOfStudent(students);
     }
+
+    // UpdateListOfStudents
+    @PostMapping("/updateListOfStudents")
+    public ResponseModel updateListOfStudents(@RequestBody List<Student> students) {
+       return  studentService.updateListOfStudents(students);
+    }
+
+    // Delete All
+    @GetMapping("/deleteAll")
+    public ResponseModel deleteAll() {
+        return studentService.deleteAll();
+    }
+
+    // Bulk Delete
+    @PostMapping("/bulkDelete")
+    public ResponseModel bulkDelete(@RequestBody List<Student> students) {
+        return studentService.bulkDelete(students);
+    }
+
+
 }

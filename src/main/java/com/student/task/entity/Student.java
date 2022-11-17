@@ -3,6 +3,8 @@ package com.student.task.entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,6 +12,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table
+@DynamicInsert
+@DynamicUpdate
 public class Student {
 
     @Id
@@ -19,6 +23,16 @@ public class Student {
     private String department;
     private String emailAddress;
 
+    public Student() {
+    }
+
+    public Student(Long id, String name, Integer age, String department, String emailAddress) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.department = department;
+        this.emailAddress = emailAddress;
+    }
 
     public Student(Student student) {
     }
