@@ -38,11 +38,6 @@ public class StudentController {
         return studentService.updateExistingStudent(student);
     }
 
-//    // UpdateListOfStudents
-//    @PostMapping("/updateListOfStudents")
-//    public void updateListOfStudents(@RequestBody List<Student> studentList) {
-//        studentService.updateListOfStudents(studentList);
-//    }
 
     // SaveListOfStudents
     @PostMapping("/saveListOfStudent")

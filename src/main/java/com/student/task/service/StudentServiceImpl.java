@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.function.Predicate.not;
+
 @Service
 public class StudentServiceImpl implements StudentService {
 
@@ -66,31 +68,26 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public ResponseModel updateListOfStudents(List<Student> studentList) {
 
-        List<Long> getListOfStudentsId =
-                studentList.stream().map(student -> student.getId())
-                        .collect(Collectors.toList());
+        List<Student> getDataFromDB = repository.findAll();
 
-        List<Student> getListOfStudentsFromDB =
-                repository.findByIdIn(getListOfStudentsId);
+        List<Long> getDBIdList = getDataFromDB.stream()
+                .map(s -> s.getId()).collect(Collectors.toList());
+        System.out.println(getDBIdList);
+        List<Long> getIdFromRequest = studentList.stream()
+                .map(s -> s.getId()).collect(Collectors.toList());
+        System.out.println(getIdFromRequest);
 
-//        System.out.println("******");
-//        studentList.forEach(System.out::println);
-//        System.out.println("******");
-//        getListOfStudentsFromDB.forEach(System.out::println);
-//        System.out.println("******");
+        List<Long> idToDeleteFromDB = getDBIdList.stream()
+                .filter(not (one -> getIdFromRequest.stream()
+                        .anyMatch(two -> two.equals(one))))
+                .collect(Collectors.toList());
 
-        List<Student> toSaveIntoDB =
-                studentList.stream()
-                        .filter(student ->
-                                student.getName().equals(getListOfStudentsFromDB.stream()
-                                        .map((student1 -> student1.getName()))))
-                        .filter(student -> student.getAge().equals(getListOfStudentsFromDB.stream()
-                                .map(student1 -> student1.getAge())))
-                        .filter(student -> student.getDepartment().equals(getListOfStudentsFromDB.stream()
-                                .map(student1 -> student1.getDepartment())))
-                        .collect(Collectors.toList());
+        // Delete unavailable ids
+        repository.deleteAllById(idToDeleteFromDB);
 
-        toSaveIntoDB.forEach(System.out::println);
+        // Save new records
+        repository.saveAll(studentList);
+
 
         return new ResponseModel("103", "Success");
     }
